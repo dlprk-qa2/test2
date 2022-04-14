@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
 resource "aws_rds_cluster" "education" {
     name                      = "education"
     instance_class            = "db.t3.micro"
