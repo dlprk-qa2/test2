@@ -157,16 +157,6 @@ data "aws_iam_policy_document" "replica_force_ssl" {
 # Bucket
 #---------------------------------------------------------------------------------------------------
 
-resource "aws_s3_bucket" "replica" {
-  count    = var.enable_replication ? 1 : 0
-  provider = aws.replica
-
-  bucket_prefix = var.override_s3_bucket_name ? null : var.replica_bucket_prefix
-  bucket        = var.override_s3_bucket_name ? var.s3_bucket_name_replica : null
-  force_destroy = var.s3_bucket_force_destroy
-
-  tags = var.tags
-}
 
 resource "aws_s3_bucket_acl" "replica" {
   count    = var.enable_replication ? 1 : 0
