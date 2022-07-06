@@ -14,7 +14,7 @@
       "type": "string",
       "defaultValue": "SQLAdmin",
       "metadata": {
-        "description": "The administrator username of the SQL Server."
+        "description": "The administrator username of the SQL Server..."
       }
     },
     "sqlAdministratorLoginPassword": {
