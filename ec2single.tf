@@ -13,7 +13,7 @@ provider "aws" {
   region  = "us-west-2"
 }
 
- #text12
+ #text123
  
 resource "aws_instance" "app_server1" {
   ami           = "ami-830c94e3"
