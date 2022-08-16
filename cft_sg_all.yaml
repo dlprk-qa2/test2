@@ -1,5 +1,5 @@
  Resources : 
-      InstanceSecurityGroup2  :  
+      InstanceSecurityGroup3  :  
              Type  :  AWS::EC2::SecurityGroup 
              Properties  :  
                  GroupDescription  :  "SG Policy" 
