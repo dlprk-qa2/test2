@@ -18,7 +18,7 @@
     },
     "stringToConvert": {
       "type": "string",
-      "defaultValue": "4"
+      "defaultValue": "5"
     },
     "arrayToTest": {
       "type": "array",
