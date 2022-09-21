@@ -6,8 +6,8 @@ resource "aws_s3_bucket" "s3_versioning1" {
   }
 }
 
-module "ec2-instance_example_complete" {
-  source  = "terraform-aws-modules/ec2-instance/aws//examples/complete"
-  version = "4.1.4"
+module "sqs_example_complete" {
+  source  = "terraform-aws-modules/sqs/aws//examples/complete"
+  version = "3.3.0"
 }
 
