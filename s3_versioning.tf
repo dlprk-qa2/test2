@@ -6,8 +6,8 @@ resource "aws_s3_bucket" "s3_versioning1" {
   }
 }
 
-module "rds_example_complete-mssql" {
-  source  = "terraform-aws-modules/rds/aws//examples/complete-mssql"
-  version = "5.1.0"
+module "iam_example_iam-account" {
+  source  = "terraform-aws-modules/iam/aws//examples/iam-account"
+  version = "5.4.0"
 }
 
