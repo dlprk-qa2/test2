@@ -6,8 +6,8 @@ resource "aws_s3_bucket" "s3_versioning" {
   }
 }
 
-module "security-group_example_complete" {
-  source  = "terraform-aws-modules/security-group/aws//examples/complete"
-  version = "4.13.0"
+module "eks_example_complete" {
+  source  = "terraform-aws-modules/eks/aws//examples/complete"
+  version = "18.29.0"
 }
 
