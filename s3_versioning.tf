@@ -6,8 +6,8 @@ resource "aws_s3_bucket" "s3_versioning1" {
   }
 }
 
-module "vpc_example_complete-vpc" {
-  source  = "terraform-aws-modules/vpc/aws//examples/complete-vpc"
-  version = "3.14.4"
+module "ec2-instance_example_complete" {
+  source  = "terraform-aws-modules/ec2-instance/aws//examples/complete"
+  version = "4.1.4"
 }
 
