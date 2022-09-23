@@ -1,10 +1,3 @@
-resource "aws_s3_bucket" "s3_versioning" {
-  bucket = "examplebuckettftest"
-  bucket_acl    = "public-read-write"
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
 module "dynamodb-table" {
   source    = "terraform-aws-modules/dynamodb-table/aws"
   version   = "3.1.1"
