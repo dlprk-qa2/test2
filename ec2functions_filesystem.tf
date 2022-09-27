@@ -25,7 +25,7 @@ resource "aws_instance" "app_server" {
     Name1 = dirname("/Users/radhakrishnadivakaruni/terraformnew/parservalidation/alicloud.tf") 
     Name2 = pathexpand("~/.ssh/id_rsa")
     Name3 = basename("/Users/radhakrishnadivakaruni/terraformnew/parservalidation/alicloud.tf")
-    Name4 = file("..//alicloud.tf")
+    Name4 = file("./alicloud.tf")
     Name5 = fileexists("/Users/radhakrishnadivakaruni/terraformnew/parservalidation/alicloud.tf")
     Name6 = fileset("/Users/radhakrishnadivakaruni/terraformnew/parservalidation/","*")
     Name7= templatefile("/Users/radhakrishnadivakaruni/terraformnew/parservalidation/backends.tftpl", { port = 8080, ip_addrs = ["10.0.0.1", "10.0.0.2"] })
