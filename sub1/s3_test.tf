@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "logging" {
+resource "aws_s3_bucket" "logging2" {
   bucket = "examplebuckettftest"
   acl    = "private"
   versioning {
