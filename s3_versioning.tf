@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "s3_versioning3" {
+resource "aws_s3_bucket" "s3_versioning5" {
   bucket = "examplebuckettftest"
   bucket_acl    = "public-read-write"
   versioning_configuration {
