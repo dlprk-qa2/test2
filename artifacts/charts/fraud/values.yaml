@@ -1,0 +1,89 @@
+# Default values for fraud.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: sharkninja.azurecr.io/fraud
+  pullPolicy: IfNotPresent
+  pullSecret: acr-secret
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: { }
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations:
+  container.apparmor.security.beta.kubernetes.io/fraud: runtime/default
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsNonRoot: false
+  fsGroup: 2000
+
+securityContext:
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop: [ "ALL" ]
+    add: [ "NET_BIND_SERVICE" ]
+
+service:
+  type: ClusterIP
+  port: 80
+
+spring:
+  profile: int
+  port: 8080
+
+schedular:
+  enabled: false
+  service: enabled
+
+agechecked:
+  enabled: false
+  service: enabled  
+
+ingress:
+  enabled: false
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 750m
+    memory: 1000Mi
+  requests:
+    cpu: 250m
+    memory: 500Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 85
+  # targetMemoryUtilizationPercentage: 80
+
+newrelic:
+  enabled: true
+  licenseKey: 81e019fe6a76b3a5c1996c7ca7b2539bd40aNRAL
+  distributedTracing: true
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }

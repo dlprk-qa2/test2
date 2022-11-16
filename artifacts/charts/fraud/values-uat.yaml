@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+  host: fraud-uat.sharkninjapps.com
+
+  tls:
+    - hosts:
+        - fraud-uat.sharkninjapps.com
+      secretName: fraud-tls
+
+podIdentity:
+  enabled: true
+  name: id-snj-fraud-uat-ne-001
