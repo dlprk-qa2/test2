@@ -1,0 +1,21 @@
+{{- if .Values.podIdentity.enabled -}}
+apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentityBinding
+metadata:
+  {{- if .Values.schedular.enabled }}
+  name: {{ .Values.podIdentity.name }}-sched
+  {{- else if .Values.agechecked.enabled }}
+  name: {{ .Values.podIdentity.name }}-agechecked
+  {{- else }}
+  name: {{ .Values.podIdentity.name }}
+  {{- end }}
+spec:
+  azureIdentity: {{ .Values.podIdentity.name }}
+  {{- if .Values.schedular.enabled }}
+  selector: {{ .Values.podIdentity.name }}-sched
+  {{- else if .Values.agechecked.enabled }}
+  selector: {{ .Values.podIdentity.name }}-agechecked
+  {{- else }}
+  selector: {{ .Values.podIdentity.name }}
+  {{- end }}
+{{- end }}

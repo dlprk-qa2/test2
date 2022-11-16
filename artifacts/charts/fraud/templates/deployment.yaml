@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fraud.fullname" . }}
+  labels:
+    {{- include "fraud.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fraud.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fraud.selectorLabels" . | nindent 8 }}
+        {{- if .Values.schedular.enabled }}
+        aadpodidbinding: {{ .Values.podIdentity.name }}-sched
+        {{- else if .Values.agechecked.enabled }}
+        aadpodidbinding: {{ .Values.podIdentity.name }}-agechecked
+        {{- else }}
+        aadpodidbinding: {{ .Values.podIdentity.name }}
+        {{- end }}
+    spec:
+
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      serviceAccountName: {{ include "fraud.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if hasKey .Values.spring "profile" }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.spring.profile }}
+            {{- end }}
+            {{- if .Values.schedular.enabled }}
+            - name: SCHEDULER_SERVICE_FRMS
+              value: {{ .Values.schedular.service }}
+            {{- end }}
+            {{- if .Values.agechecked.enabled }}
+            - name: SCHEDULER_AGECHECKED_FRMS
+              value: {{ .Values.agechecked.service }}
+            {{- end }}
+            {{- if .Values.newrelic.enabled }}
+            - name: NEW_RELIC_ENVIRONMENT
+              value: {{ .Values.spring.profile }}
+            - name: NEW_RELIC_APP_NAME
+              value: {{ (list .Values.spring.profile (include "fraud.fullname" .) | join "-") }}
+            - name: NEW_RELIC_LICENSE_KEY
+              value: {{ .Values.newrelic.licenseKey }}
+            - name: NEW_RELIC_DISTRIBUTED_TRACING_ENABLED
+              value: {{ .Values.newrelic.distributedTracing | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.spring.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureThreshold: 10
+            initialDelaySeconds: 30
+            periodSeconds: 24
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            failureThreshold: 2
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /logs
+            name: newrelic-volume
+          - mountPath: /tmp
+            name: tmp-volume
+      volumes:
+      - name: newrelic-volume
+        emptyDir: {} 
+      - name: tmp-volume
+        emptyDir: {}   
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
