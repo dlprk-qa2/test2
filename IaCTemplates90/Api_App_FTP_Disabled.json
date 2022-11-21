@@ -7,7 +7,7 @@
             "type": "String"
         },
         "noncompliant_devapp_serverfarms_svc2": {
-            "defaultValue": "noncompliant-win-apiapp-serverfarm",
+            "defaultValue": "noncompliant-win-apiapp-serverfarm1",
             "type": "String"
         }
     },
